@@ -9,14 +9,15 @@ void main() async {
   await windowManager.ensureInitialized();
 
   WindowOptions windowOptions = WindowOptions(
-    size: Size(800, 600),
-    minimumSize: Size(800, 600),
+    size: Size(600, 400),
+    minimumSize: Size(600, 400),
     center: true,
     backgroundColor: Colors.transparent,
     skipTaskbar: false,
-    titleBarStyle: TitleBarStyle.hidden,
+    titleBarStyle: TitleBarStyle.normal,
   );
   windowManager.waitUntilReadyToShow(windowOptions, () async {
+    await windowManager.setResizable(false);
     await windowManager.show();
     await windowManager.focus();
   });
@@ -32,7 +33,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Dev Launcher',
-      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
+      themeMode: ThemeMode.dark,
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: Color(0xff1a1a1a),
+      ),
       home: MainScreen(),
     );
   }
