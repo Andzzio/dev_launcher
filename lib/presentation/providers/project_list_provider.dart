@@ -1,5 +1,5 @@
 import 'package:dev_launcher/domain/entities/project_entity.dart';
-import 'package:dev_launcher/presentation/providers/usecases_providers.dart';
+import 'package:dev_launcher/presentation/providers/domain/usecases_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProjectListProvider extends AsyncNotifier<List<ProjectEntity>> {
