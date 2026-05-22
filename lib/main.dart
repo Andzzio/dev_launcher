@@ -1,4 +1,5 @@
-import 'package:dev_launcher/presentation/screens/main_screen.dart';
+import 'package:dev_launcher/config/router/app_router.dart';
+import 'package:dev_launcher/config/shortcuts/app_shortcuts.dart';
 import 'package:dev_launcher/utils/theme_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,23 +33,27 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Dev Launcher',
-      themeMode: ThemeMode.dark,
-      darkTheme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Color(ThemeUi.mainBgColor),
-          brightness: Brightness.dark,
-        ).copyWith(primary: Color(ThemeUi.fontColor)),
-        useMaterial3: true,
-        scaffoldBackgroundColor: Color(ThemeUi.mainBgColor),
-        textTheme: GoogleFonts.getTextTheme(
-          ThemeUi.mainFont,
-          ThemeData.dark().textTheme,
-        ),
+    return MaterialApp.router(
+      builder: (context, child) => Shortcuts(
+        shortcuts: globalShortcuts,
+        child: child!,
       ),
-      home: MainScreen(),
+      debugShowCheckedModeBanner: false,
+        title: 'Dev Launcher',
+        themeMode: ThemeMode.dark,
+        darkTheme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Color(ThemeUi.mainBgColor),
+            brightness: Brightness.dark,
+          ).copyWith(primary: Color(ThemeUi.fontColor)),
+          useMaterial3: true,
+          scaffoldBackgroundColor: Color(ThemeUi.mainBgColor),
+          textTheme: GoogleFonts.getTextTheme(
+            ThemeUi.mainFont,
+            ThemeData.dark().textTheme,
+          ),
+        ),
+        routerConfig: appRouter,
     );
   }
 }

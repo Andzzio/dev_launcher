@@ -1,6 +1,7 @@
 import 'package:dev_launcher/presentation/widgets/hot_key_badge.dart';
 import 'package:dev_launcher/utils/theme_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class MiscSideWidget extends StatelessWidget {
   const MiscSideWidget({super.key});
@@ -37,11 +38,19 @@ class MiscSideWidget extends StatelessWidget {
             style: TextStyle(color: Color(ThemeUi.fontColorSecondary)),
           ),
           Spacer(),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.settings_outlined,
-              color: Color(ThemeUi.fontColorSecondary),
+          TextButton(
+            onPressed: () {
+              context.go("/settings");
+            },
+            child: Row(
+              spacing: 10,
+              children: [
+                HotKeyBadge(label: "s"),
+                Icon(
+                  Icons.settings_outlined,
+                  color: Color(ThemeUi.fontColorSecondary),
+                ),
+              ],
             ),
           ),
         ],

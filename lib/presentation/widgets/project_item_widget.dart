@@ -50,6 +50,16 @@ class ProjectItemWidget extends StatelessWidget {
               ),
             ],
           ),
+          Spacer(),
+          ExcludeFocus(
+            child: IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.more_horiz_sharp,
+                color: Color(ThemeUi.fontColorSecondary),
+              ),
+            ),
+          ),
         ],
       ),
     );

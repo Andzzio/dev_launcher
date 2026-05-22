@@ -72,6 +72,9 @@ class DartIoProjectDatasource implements FileSystemProjectDatasource {
       case "CMakeLists.txt":
         detectedType = ProjectType.cpp;
         break;
+      case "Cargo.toml":
+        detectedType = ProjectType.rs;
+        break;
       default:
         detectedType = null;
         break;

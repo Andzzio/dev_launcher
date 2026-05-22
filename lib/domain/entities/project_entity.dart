@@ -5,4 +5,4 @@ class ProjectEntity {
   ProjectEntity({required this.path, required this.name, required this.type});
 }
 
-enum ProjectType { dart, cpp }
+enum ProjectType { dart, cpp, rs }

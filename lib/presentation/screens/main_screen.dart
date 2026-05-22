@@ -1,52 +1,83 @@
-import 'package:dev_launcher/presentation/providers/item_scroll_controller_provider.dart';
+import 'dart:io';
+
+import 'package:dev_launcher/config/shortcuts/app_intents.dart';
+import 'package:dev_launcher/presentation/providers/project_list_provider.dart';
 import 'package:dev_launcher/presentation/providers/selected_key_project_provider.dart';
 import 'package:dev_launcher/presentation/widgets/misc_side_widget.dart';
 import 'package:dev_launcher/presentation/widgets/project_list_widget.dart';
 import 'package:dev_launcher/presentation/widgets/search_bar_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
-class MainScreen extends ConsumerWidget {
+class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final selectedProjectNotifier = ref.read(
+  ConsumerState<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends ConsumerState<MainScreen> {
+  final ItemScrollController _itemScrollController = ItemScrollController();
+
+  @override
+  Widget build(BuildContext context) {
+    final selectedProjectKeyNotifier = ref.read(
       selectedKeyProjectProvider.notifier,
     );
-    final itemScrollController = ref.read(itemScrollControllerProvider);
-    return Focus(
-      autofocus: true,
-      onKeyEvent: (node, event) {
-        if (event is KeyDownEvent) {
-          switch (event.logicalKey) {
-            case LogicalKeyboardKey.arrowDown:
-              selectedProjectNotifier.nextProject(itemScrollController);
-              return KeyEventResult.handled;
-            case LogicalKeyboardKey.arrowUp:
-              selectedProjectNotifier.previousProject(itemScrollController);
-              return KeyEventResult.handled;
-            case LogicalKeyboardKey.enter:
-              //open project
-              return KeyEventResult.handled;
-            case LogicalKeyboardKey.escape:
-              //hide app
-              return KeyEventResult.handled;
-            default:
-              return KeyEventResult.ignored;
-          }
-        }
-        return KeyEventResult.ignored;
+    
+    return Actions(
+      actions: <Type, Action<Intent>>{
+        NextProjectIntent: CallbackAction<NextProjectIntent>(
+          onInvoke: (intent) {
+            selectedProjectKeyNotifier.nextProject(_itemScrollController);
+            return null;
+          },
+        ),
+        PreviousProjectIntent: CallbackAction<PreviousProjectIntent>(
+          onInvoke: (intent) {
+            selectedProjectKeyNotifier.previousProject(_itemScrollController);
+            return null;
+          },
+        ),
+        OpenProjectIntent: CallbackAction<OpenProjectIntent>(
+          onInvoke: (intent) {
+            final projectList = ref.read(projectListProvider).value;
+            final selectedIndex = ref.read(selectedKeyProjectProvider);
+            if (projectList != null) {
+              final selectedProject = projectList[selectedIndex];
+              Process.start("code", [selectedProject.path], runInShell: true);
+            }
+            return null;
+          },
+        ),
+        GoBackIntent: CallbackAction<GoBackIntent>(
+          onInvoke: (intent) => null,
+        ),
+        OpenSettingsIntent: CallbackAction<OpenSettingsIntent>(
+          onInvoke: (intent) {
+            context.go("/settings");
+            return null;
+          },
+        ),
       },
-      child: Scaffold(
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SearchBarWidget(),
-            const Expanded(child: ProjectListWidget()),
-            const MiscSideWidget(),
-          ],
+      child: Focus(
+        autofocus: true,
+        descendantsAreFocusable: false,
+        child: Scaffold(
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SearchBarWidget(),
+              Expanded(
+                child: ProjectListWidget(
+                  itemScrollController: _itemScrollController,
+                ),
+              ),
+              const MiscSideWidget(),
+            ],
+          ),
         ),
       ),
     );
