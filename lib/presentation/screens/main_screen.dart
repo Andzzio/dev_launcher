@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:dev_launcher/config/shortcuts/app_intents.dart';
 import 'package:dev_launcher/presentation/providers/project_list_provider.dart';
+import 'package:dev_launcher/presentation/providers/selected_editor_provider.dart';
 import 'package:dev_launcher/presentation/providers/selected_key_project_provider.dart';
 import 'package:dev_launcher/presentation/widgets/misc_side_widget.dart';
 import 'package:dev_launcher/presentation/widgets/project_list_widget.dart';
 import 'package:dev_launcher/presentation/widgets/search_bar_widget.dart';
+import 'package:dev_launcher/utils/theme_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -26,7 +28,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     final selectedProjectKeyNotifier = ref.read(
       selectedKeyProjectProvider.notifier,
     );
-    
+
     return Actions(
       actions: <Type, Action<Intent>>{
         NextProjectIntent: CallbackAction<NextProjectIntent>(
@@ -45,16 +47,25 @@ class _MainScreenState extends ConsumerState<MainScreen> {
           onInvoke: (intent) {
             final projectList = ref.read(projectListProvider).value;
             final selectedIndex = ref.read(selectedKeyProjectProvider);
+
+            final command = ref.watch(selectedEditorProvider)?.command;
+
             if (projectList != null) {
-              final selectedProject = projectList[selectedIndex];
-              Process.start("code", [selectedProject.path], runInShell: true);
+              try {
+                final selectedProject = projectList[selectedIndex];
+                Process.start(command ?? "code", [
+                  selectedProject.path,
+                ], runInShell: true);
+              } catch (e) {
+                if (!context.mounted) return;
+
+                ThemeUi.showSnackBar(context, "Error opening project: $e");
+              }
             }
             return null;
           },
         ),
-        GoBackIntent: CallbackAction<GoBackIntent>(
-          onInvoke: (intent) => null,
-        ),
+        GoBackIntent: CallbackAction<GoBackIntent>(onInvoke: (intent) => null),
         OpenSettingsIntent: CallbackAction<OpenSettingsIntent>(
           onInvoke: (intent) {
             context.go("/settings");

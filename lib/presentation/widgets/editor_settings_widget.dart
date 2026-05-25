@@ -12,6 +12,7 @@ class EditorSettingsWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedEditor = ref.watch(selectedEditorProvider);
+    final selectedEditorNotifier = ref.read(selectedEditorProvider.notifier);
     return SizedBox(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,7 +62,8 @@ class EditorSettingsWidget extends ConsumerWidget {
                   )
                   .toList(),
               onChanged: (value) {
-                ref.read(selectedEditorProvider.notifier).state = value;
+                if (value == null) return;
+                selectedEditorNotifier.setEditor(value);
               },
             ),
           ),

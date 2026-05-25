@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class ThemeUi {
   static const String mainFont = "JetBrains Mono";
 
@@ -10,4 +12,14 @@ class ThemeUi {
   static const int fontColor = 0xFFFFFFFF;
   static const int fontDesactivateColor = 0xFF8c8c8c;
   static const int fontColorSecondary = 0xFF54514F;
+
+  static void showSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.redAccent,
+      ),
+    );
+  }
 }
