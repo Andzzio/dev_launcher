@@ -34,26 +34,24 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      builder: (context, child) => Shortcuts(
-        shortcuts: globalShortcuts,
-        child: child!,
-      ),
+      builder: (context, child) =>
+          Shortcuts(shortcuts: globalShortcuts, child: child!),
       debugShowCheckedModeBanner: false,
-        title: 'Dev Launcher',
-        themeMode: ThemeMode.dark,
-        darkTheme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: Color(ThemeUi.mainBgColor),
-            brightness: Brightness.dark,
-          ).copyWith(primary: Color(ThemeUi.fontColor)),
-          useMaterial3: true,
-          scaffoldBackgroundColor: Color(ThemeUi.mainBgColor),
-          textTheme: GoogleFonts.getTextTheme(
-            ThemeUi.mainFont,
-            ThemeData.dark().textTheme,
-          ),
+      title: 'Dev Launcher',
+      themeMode: ThemeMode.dark,
+      darkTheme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Color(ThemeUi.mainBgColor),
+          brightness: Brightness.dark,
+        ).copyWith(primary: Color(ThemeUi.fontColor)),
+        useMaterial3: true,
+        scaffoldBackgroundColor: Color(ThemeUi.mainBgColor),
+        textTheme: GoogleFonts.getTextTheme(
+          ThemeUi.mainFont,
+          ThemeData.dark().textTheme,
         ),
-        routerConfig: appRouter,
+      ),
+      routerConfig: appRouter,
     );
   }
 }

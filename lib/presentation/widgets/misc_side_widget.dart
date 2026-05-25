@@ -32,7 +32,21 @@ class MiscSideWidget extends StatelessWidget {
             style: TextStyle(color: Color(ThemeUi.fontColorSecondary)),
           ),
           SizedBox(width: 5),
-          HotKeyBadge(label: "ctrl"),
+          Row(
+            spacing: 5,
+            children: [
+              HotKeyBadge(label: "ctrl"),
+              Text(
+                "+",
+                style: TextStyle(color: Color(ThemeUi.fontColorSecondary)),
+              ),
+              HotKeyBadge(
+                icon: Icons.subdirectory_arrow_left_rounded,
+                label: "enter",
+                size: 15,
+              ),
+            ],
+          ),
           Text(
             "options",
             style: TextStyle(color: Color(ThemeUi.fontColorSecondary)),
@@ -45,7 +59,7 @@ class MiscSideWidget extends StatelessWidget {
             child: Row(
               spacing: 10,
               children: [
-                HotKeyBadge(label: "s"),
+                HotKeyBadge(label: "f1"),
                 Icon(
                   Icons.settings_outlined,
                   color: Color(ThemeUi.fontColorSecondary),

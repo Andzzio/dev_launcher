@@ -9,5 +9,5 @@ final Map<ShortcutActivator, Intent> globalShortcuts = {
       const PreviousProjectIntent(),
   const SingleActivator(LogicalKeyboardKey.enter): const OpenProjectIntent(),
   const SingleActivator(LogicalKeyboardKey.escape): const GoBackIntent(),
-  const SingleActivator(LogicalKeyboardKey.keyS): const OpenSettingsIntent(),
+  const SingleActivator(LogicalKeyboardKey.f1): const OpenSettingsIntent(),
 };

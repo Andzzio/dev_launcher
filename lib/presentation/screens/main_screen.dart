@@ -64,7 +64,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       },
       child: Focus(
         autofocus: true,
-        descendantsAreFocusable: false,
         child: Scaffold(
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
