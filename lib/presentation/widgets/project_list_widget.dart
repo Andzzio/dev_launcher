@@ -61,7 +61,9 @@ class ProjectListWidget extends ConsumerWidget {
         ),
       ),
       error: (error, stackTrace) => Text("Error: $error"),
-      loading: () => const CircularProgressIndicator(),
+      loading: () => const CircularProgressIndicator(
+        padding: EdgeInsets.symmetric(horizontal: 250, vertical: 150),
+      ),
     );
   }
 }
