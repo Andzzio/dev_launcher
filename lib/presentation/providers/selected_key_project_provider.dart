@@ -41,6 +41,6 @@ class SelectedKeyProjectProvider extends Notifier<int> {
 }
 
 final selectedKeyProjectProvider =
-    NotifierProvider<SelectedKeyProjectProvider, int>(
+    NotifierProvider.autoDispose<SelectedKeyProjectProvider, int>(
       SelectedKeyProjectProvider.new,
     );

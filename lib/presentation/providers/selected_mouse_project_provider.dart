@@ -16,6 +16,6 @@ class SelectedMouseProjectProvider extends Notifier<int> {
 }
 
 final selectedMouseProjectProvider =
-    NotifierProvider<SelectedMouseProjectProvider, int>(
+    NotifierProvider.autoDispose<SelectedMouseProjectProvider, int>(
       SelectedMouseProjectProvider.new,
     );
