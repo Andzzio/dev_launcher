@@ -1,6 +1,5 @@
-import 'dart:io';
-
 import 'package:dev_launcher/domain/entities/project_entity.dart';
+import 'package:dev_launcher/presentation/providers/domain/repositories_providers.dart';
 import 'package:dev_launcher/presentation/providers/domain/usecases_providers.dart';
 import 'package:dev_launcher/presentation/providers/selected_path_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,9 +11,10 @@ class ProjectListProvider extends AsyncNotifier<List<ProjectEntity>> {
 
     if (path == null) return [];
 
-    final subscription = Directory(
-      path,
-    ).watch().listen((event) => ref.invalidateSelf());
+    final subscription = ref
+        .read(projectRepositoryProvider)
+        .watchDirectory(path)
+        .listen((event) => ref.invalidateSelf());
 
     ref.onDispose(() => subscription.cancel());
 

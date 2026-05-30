@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dev_launcher/domain/datasources/file_system_project_datasource.dart';
 import 'package:dev_launcher/domain/entities/project_entity.dart';
 import 'package:dev_launcher/domain/repos/project_repository.dart';
@@ -15,5 +17,10 @@ class ProjectRepositoryImpl implements ProjectRepository {
   @override
   Future<void> launchProject(String path, String command) async {
     await dataSource.launchProject(path, command);
+  }
+
+  @override
+  Stream<FileSystemEvent> watchDirectory(String path) {
+    return dataSource.watchDirectory(path);
   }
 }

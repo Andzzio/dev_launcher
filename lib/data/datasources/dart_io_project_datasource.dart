@@ -92,4 +92,9 @@ class DartIoProjectDatasource implements FileSystemProjectDatasource {
   Future<void> launchProject(String path, String command) async {
     await Process.start(command, [path], runInShell: true);
   }
+
+  @override
+  Stream<FileSystemEvent> watchDirectory(String path) {
+    return Directory(path).watch();
+  }
 }
