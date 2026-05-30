@@ -87,4 +87,9 @@ class DartIoProjectDatasource implements FileSystemProjectDatasource {
       type: detectedType,
     );
   }
+
+  @override
+  Future<void> launchProject(String path, String command) async {
+    await Process.start(command, [path], runInShell: true);
+  }
 }

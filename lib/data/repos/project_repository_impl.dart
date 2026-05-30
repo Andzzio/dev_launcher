@@ -11,4 +11,9 @@ class ProjectRepositoryImpl implements ProjectRepository {
   Future<List<ProjectEntity>> getProjects(String path) async {
     return await dataSource.getProjects(path);
   }
+
+  @override
+  Future<void> launchProject(String path, String command) async {
+    await dataSource.launchProject(path, command);
+  }
 }

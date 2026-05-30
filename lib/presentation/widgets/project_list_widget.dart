@@ -1,6 +1,5 @@
-import 'dart:io';
-
 import 'package:dev_launcher/domain/entities/project_entity.dart';
+import 'package:dev_launcher/presentation/providers/domain/usecases_providers.dart';
 import 'package:dev_launcher/presentation/providers/project_list_provider.dart';
 import 'package:dev_launcher/presentation/providers/selected_editor_provider.dart';
 import 'package:dev_launcher/presentation/providers/selected_key_project_provider.dart';
@@ -33,13 +32,14 @@ class ProjectListWidget extends ConsumerWidget {
           itemCount: projects.length,
           itemBuilder: (BuildContext context, int index) {
             final ProjectEntity project = projects[index];
-            final command = ref.watch(selectedEditorProvider)?.command;
+            final command = ref.read(selectedEditorProvider)?.command;
             return GestureDetector(
               onTap: () {
                 try {
-                  Process.start(command ?? "code", [
-                    project.path,
-                  ], runInShell: true);
+                  final launchProjectUsecase = ref.read(
+                    launchProjectUsecaseProvider,
+                  );
+                  launchProjectUsecase.call(project.path, command);
                 } catch (e) {
                   if (!context.mounted) return;
                   ThemeUi.showSnackBar(context, "Error opening project: $e");
